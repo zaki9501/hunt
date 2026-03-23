@@ -1,0 +1,63 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import {Properties as BaseProperties, DeFiProperties} from "invariant-hunter/Properties.sol";
+import {BeforeAfter} from "./BeforeAfter.sol";
+
+/// @title Properties - Define invariant properties
+/// @notice These properties must hold true after every sequence of function calls
+/// @dev Properties are checked by the fuzzer after each transaction
+abstract contract Properties is BeforeAfter, BaseProperties {
+    
+    // ============ Global Invariants ============
+    // These are checked after every function call
+
+    /// @notice Example invariant: Total supply should never exceed max
+    // function invariant_totalSupplyBounded() public view {
+    //     t(yourContract.totalSupply() <= yourContract.MAX_SUPPLY(), "Supply exceeds max");
+    // }
+
+    /// @notice Example invariant: Contract should always have enough backing
+    // function invariant_sufficientBacking() public view {
+    //     t(
+    //         address(yourContract).balance >= yourContract.totalLiabilities(),
+    //         "Insufficient backing"
+    //     );
+    // }
+
+    /// @notice Example invariant: Sum of all balances equals total supply
+    // function invariant_balancesSumToTotal() public view {
+    //     uint256 sum = 0;
+    //     address[] memory actors = getActors();
+    //     for (uint256 i = 0; i < actors.length; i++) {
+    //         sum += yourContract.balanceOf(actors[i]);
+    //     }
+    //     eq(sum, yourContract.totalSupply(), "Balances don't sum to total");
+    // }
+
+    /// @notice Example invariant: Protocol should never be in bad debt
+    // function invariant_noBadDebt() public view {
+    //     t(yourContract.totalDebt() <= yourContract.totalCollateral(), "Bad debt detected");
+    // }
+
+    // ============ Conditional Invariants ============
+    // These only apply in certain states
+
+    /// @notice Example: When paused, no state changes should occur
+    // function invariant_pausedMeansNoChanges() public view {
+    //     if (yourContract.paused()) {
+    //         // Check that key state variables haven't changed
+    //         // This is typically used with BeforeAfter tracking
+    //     }
+    // }
+
+    // ============ Helper Properties ============
+    // Reusable property checks
+
+    /// @notice Check that an account has sufficient balance
+    /// @param account Account to check
+    /// @param minBalance Minimum required balance
+    // function _property_hasSufficientBalance(address account, uint256 minBalance) internal view {
+    //     t(yourContract.balanceOf(account) >= minBalance, "Insufficient balance");
+    // }
+}

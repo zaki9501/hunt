@@ -1,0 +1,81 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import {Test} from "forge-std/Test.sol";
+import {HunterToFoundry as BaseHunterToFoundry, FoundryAsserts} from "invariant-hunter/HunterTester.sol";
+import {TargetFunctions} from "./TargetFunctions.sol";
+
+/// @title HunterToFoundry - Debug broken properties in Foundry
+/// @notice Convert fuzzer-discovered issues into reproducible Foundry tests
+/// @dev Run with: forge test --match-contract HunterToFoundry -vvvv
+contract HunterToFoundry is Test, TargetFunctions, FoundryAsserts {
+    
+    /// @notice Set up the test environment
+    function setUp() public {
+        // Run setup from Setup contract
+        setup();
+        
+        // Initialize default actors  
+        _initializeDefaultActors();
+        
+        // Mark setup as complete
+        _completeSetup();
+
+        // Label addresses for better trace output
+        vm.label(ACTOR_ADMIN, "Admin");
+        vm.label(ACTOR_USER1, "User1");
+        vm.label(ACTOR_USER2, "User2");
+        vm.label(ACTOR_USER3, "User3");
+        vm.label(ACTOR_ATTACKER, "Attacker");
+        
+        // Label target contracts
+        // vm.label(address(yourContract), "YourContract");
+    }
+
+    /// @notice Template test - add reproducer tests here
+    /// @dev Use the log scraper to convert fuzzer output to test cases
+    function test_hunter() public {
+        // TODO: Add failing property tests here for debugging
+        // 
+        // Example reproducer from Echidna/Medusa logs:
+        // 
+        // vm.prank(ACTOR_USER1);
+        // handler_deposit(100 ether);
+        // 
+        // vm.prank(ACTOR_USER2);
+        // handler_deposit(50 ether);
+        // 
+        // vm.prank(ACTOR_ATTACKER);
+        // handler_withdraw(200 ether);  // This breaks the invariant
+        // 
+        // // Check the broken invariant
+        // invariant_sufficientBacking();
+    }
+
+    /// @notice Test individual handler in isolation
+    function test_handlerExample() public {
+        // Test that a single handler works correctly
+        // vm.prank(ACTOR_USER1);
+        // handler_deposit(100 ether);
+        // 
+        // assertGt(yourContract.balanceOf(ACTOR_USER1), 0);
+    }
+
+    /// @notice Test invariant directly
+    function test_invariantExample() public {
+        // Set up a specific state
+        // vm.prank(ACTOR_USER1);
+        // handler_deposit(100 ether);
+        
+        // Check that invariants hold
+        // invariant_totalSupplyBounded();
+        // invariant_sufficientBacking();
+    }
+
+    // ============ Reproducer Tests ============
+    // Paste converted test sequences from the log scraper below
+
+    // function test_reproducer_1() public {
+    //     // Converted from Echidna/Medusa logs
+    // }
+}

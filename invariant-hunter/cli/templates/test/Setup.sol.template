@@ -1,0 +1,33 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import {BaseSetup} from "invariant-hunter/BaseSetup.sol";
+// Import your target contracts here
+// import {YourContract} from "src/YourContract.sol";
+
+/// @title Setup - Deploy and initialize target contracts
+/// @notice This contract sets up the testing environment
+/// @dev Add your contract deployments and initialization logic here
+abstract contract Setup is BaseSetup {
+    // Declare your target contracts here
+    // YourContract public yourContract;
+
+    /// @notice Set up the testing environment
+    /// @dev Called once before fuzzing begins
+    function setup() internal virtual override {
+        // Deploy your contracts
+        // yourContract = new YourContract();
+
+        // Initialize contracts
+        // yourContract.initialize(...);
+
+        // Add target contracts for tracking
+        // _addTargetContract(address(yourContract), "YourContract");
+
+        // Fund actors if needed
+        // vm.deal(ACTOR_USER1, 100 ether);
+
+        // Complete setup
+        _completeSetup();
+    }
+}

@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import {HunterTester as BaseHunterTester, CryticAsserts} from "invariant-hunter/HunterTester.sol";
+import {TargetFunctions} from "./TargetFunctions.sol";
+
+/// @title HunterTester - Entry point for Echidna and Medusa
+/// @notice Run with: echidna . --contract HunterTester --config echidna.yaml
+/// @notice Run with: medusa fuzz
+contract HunterTester is TargetFunctions, CryticAsserts {
+    
+    /// @notice Constructor - sets up the testing environment
+    constructor() payable {
+        // Run setup from Setup contract
+        setup();
+        
+        // Initialize default actors
+        _initializeDefaultActors();
+        
+        // Mark setup as complete
+        _completeSetup();
+    }
+
+    // The fuzzer will call:
+    // 1. Handler functions from TargetFunctions
+    // 2. Invariant functions from Properties (prefixed with invariant_ or property_)
+    // 3. Actor switching via switchActor(uint256)
+
+    /// @notice Receive ETH
+    receive() external payable {}
+}

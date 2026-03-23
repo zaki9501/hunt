@@ -1,0 +1,91 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import {BeforeAfter as BaseBeforeAfter} from "invariant-hunter/BeforeAfter.sol";
+import {Setup} from "./Setup.sol";
+
+/// @title BeforeAfter - Track state changes between function calls
+/// @notice Capture ghost variables before and after handler execution
+/// @dev Use these to verify state transitions are correct
+abstract contract BeforeAfter is Setup {
+    
+    /// @notice Structure to hold state snapshots
+    /// @dev Add fields for each state variable you want to track
+    struct Vars {
+        // Timestamp and block info
+        uint256 timestamp;
+        uint256 blockNumber;
+        
+        // Contract state - customize these for your protocol
+        // uint256 totalSupply;
+        // uint256 totalDebt;
+        // uint256 totalCollateral;
+        // uint256 contractBalance;
+        
+        // User state - track per-actor if needed
+        // uint256 userBalance;
+        // uint256 userDebt;
+        // uint256 userShares;
+        
+        // Protocol metrics
+        // uint256 exchangeRate;
+        // uint256 utilizationRate;
+        // bool isPaused;
+    }
+
+    /// @notice State before function call
+    Vars internal _before;
+    
+    /// @notice State after function call
+    Vars internal _after;
+
+    /// @notice Capture state before a handler executes
+    /// @dev Override this to capture your protocol's state
+    function __before() internal virtual {
+        _before.timestamp = block.timestamp;
+        _before.blockNumber = block.number;
+        
+        // Capture contract state
+        // _before.totalSupply = yourContract.totalSupply();
+        // _before.contractBalance = address(yourContract).balance;
+        
+        // Capture current actor's state
+        // _before.userBalance = yourContract.balanceOf(currentActor());
+    }
+
+    /// @notice Capture state after a handler executes
+    /// @dev Override this to capture your protocol's state
+    function __after() internal virtual {
+        _after.timestamp = block.timestamp;
+        _after.blockNumber = block.number;
+        
+        // Capture contract state
+        // _after.totalSupply = yourContract.totalSupply();
+        // _after.contractBalance = address(yourContract).balance;
+        
+        // Capture current actor's state
+        // _after.userBalance = yourContract.balanceOf(currentActor());
+    }
+
+    // ============ Helper Functions ============
+
+    /// @notice Check if total supply increased
+    // function _supplyIncreased() internal view returns (bool) {
+    //     return _after.totalSupply > _before.totalSupply;
+    // }
+
+    /// @notice Check if total supply decreased
+    // function _supplyDecreased() internal view returns (bool) {
+    //     return _after.totalSupply < _before.totalSupply;
+    // }
+
+    /// @notice Get the change in user balance
+    // function _userBalanceChange() internal view returns (int256) {
+    //     return int256(_after.userBalance) - int256(_before.userBalance);
+    // }
+
+    /// @notice Get the change in contract balance
+    // function _contractBalanceChange() internal view returns (int256) {
+    //     return int256(_after.contractBalance) - int256(_before.contractBalance);
+    // }
+}

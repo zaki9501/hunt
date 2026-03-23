@@ -1,0 +1,73 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import {BaseTargetFunctions} from "invariant-hunter/BaseSetup.sol";
+import {Properties} from "./Properties.sol";
+
+/// @title TargetFunctions - Handler functions for fuzzing
+/// @notice Define the functions that the fuzzer will call
+/// @dev These are the only functions the fuzzer will interact with
+abstract contract TargetFunctions is BaseTargetFunctions, Properties {
+    
+    // ============ Example Handler Functions ============
+    
+    /// @notice Example handler - wraps a deposit function
+    /// @param amount Amount to deposit
+    // function handler_deposit(uint256 amount) public {
+    //     // Clamp inputs to reasonable values
+    //     amount = between(amount, 1, 1000 ether);
+    //     
+    //     // Capture state before
+    //     __before();
+    //     
+    //     // Call the target function
+    //     try yourContract.deposit{value: amount}() {
+    //         // Capture state after
+    //         __after();
+    //         
+    //         // Check post-conditions (assertion properties)
+    //         t(_after.userBalance >= _before.userBalance, "Balance should increase");
+    //     } catch {
+    //         // Handle expected reverts
+    //         // Or mark unexpected reverts as failures:
+    //         // t(false, "Unexpected revert in deposit");
+    //     }
+    // }
+
+    /// @notice Example handler - wraps a withdraw function
+    /// @param amount Amount to withdraw
+    // function handler_withdraw(uint256 amount) public {
+    //     // Use preconditions to skip invalid states
+    //     precondition(yourContract.balanceOf(currentActor()) > 0);
+    //     
+    //     amount = between(amount, 1, yourContract.balanceOf(currentActor()));
+    //     
+    //     __before();
+    //     
+    //     try yourContract.withdraw(amount) {
+    //         __after();
+    //         
+    //         // Verify the withdrawal
+    //         eq(_before.userBalance - amount, _after.userBalance, "Incorrect balance after withdraw");
+    //     } catch {
+    //         // Expected reverts can be silently ignored
+    //     }
+    // }
+
+    /// @notice Example handler - wraps a transfer function
+    /// @param to Recipient address (will be clamped to valid actors)
+    /// @param amount Amount to transfer
+    // function handler_transfer(address to, uint256 amount) public {
+    //     // Clamp 'to' address to one of our actors
+    //     to = getActors()[between(uint256(uint160(to)), 0, getActorCount() - 1)];
+    //     
+    //     // Skip if transferring to self
+    //     precondition(to != currentActor());
+    //     
+    //     __before();
+    //     
+    //     yourContract.transfer(to, amount);
+    //     
+    //     __after();
+    // }
+}

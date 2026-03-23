@@ -1,0 +1,155 @@
+{
+  "name": "invariant-hunter",
+  "displayName": "Invariant Hunter",
+  "description": "Smart contract invariant testing and fuzzing tools",
+  "version": "0.1.0",
+  "publisher": "invariant-hunter",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Testing",
+    "Linters",
+    "Other"
+  ],
+  "keywords": [
+    "solidity",
+    "ethereum",
+    "smart contracts",
+    "fuzzing",
+    "invariant testing",
+    "echidna",
+    "medusa",
+    "foundry"
+  ],
+  "activationEvents": [
+    "onLanguage:solidity",
+    "workspaceContains:foundry.toml",
+    "workspaceContains:echidna.yaml",
+    "workspaceContains:medusa.json"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "invariantHunter.init",
+        "title": "Initialize Project",
+        "category": "Invariant Hunter"
+      },
+      {
+        "command": "invariantHunter.generateHandlers",
+        "title": "Generate Handlers from Contract",
+        "category": "Invariant Hunter"
+      },
+      {
+        "command": "invariantHunter.runFuzzer",
+        "title": "Run Fuzzer",
+        "category": "Invariant Hunter"
+      },
+      {
+        "command": "invariantHunter.scrapeLogs",
+        "title": "Scrape Logs to Reproducer",
+        "category": "Invariant Hunter"
+      },
+      {
+        "command": "invariantHunter.runCloud",
+        "title": "Run on Cloud",
+        "category": "Invariant Hunter"
+      },
+      {
+        "command": "invariantHunter.openDashboard",
+        "title": "Open Dashboard",
+        "category": "Invariant Hunter"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "resourceLangId == solidity",
+          "command": "invariantHunter.generateHandlers",
+          "group": "invariantHunter"
+        }
+      ],
+      "explorer/context": [
+        {
+          "when": "resourceLangId == solidity",
+          "command": "invariantHunter.generateHandlers",
+          "group": "invariantHunter"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Invariant Hunter",
+      "properties": {
+        "invariantHunter.defaultFuzzer": {
+          "type": "string",
+          "default": "echidna",
+          "enum": [
+            "echidna",
+            "medusa",
+            "foundry"
+          ],
+          "description": "Default fuzzer to use"
+        },
+        "invariantHunter.cloudEnabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable cloud execution features"
+        },
+        "invariantHunter.apiUrl": {
+          "type": "string",
+          "default": "https://api.invarianthunter.xyz",
+          "description": "API URL for cloud features"
+        },
+        "invariantHunter.apiToken": {
+          "type": "string",
+          "default": "",
+          "description": "API token for authentication"
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "invariantHunter",
+          "title": "Invariant Hunter",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "invariantHunter": [
+        {
+          "id": "invariantHunterJobs",
+          "name": "Jobs",
+          "icon": "resources/jobs.svg"
+        },
+        {
+          "id": "invariantHunterProperties",
+          "name": "Properties",
+          "icon": "resources/properties.svg"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vscode/vsce": "^2.22.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.3.0"
+  },
+  "dependencies": {
+    "axios": "^1.13.6"
+  }
+}
